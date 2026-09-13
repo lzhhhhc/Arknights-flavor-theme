@@ -1,0 +1,25 @@
+{
+  "name": "@dsh-external/dsh-client-ui-skin-arknights",
+  "description": "Arknights Rhodes Island theme skin for DSH Desktop (DeepSeek Harness): dark HUD visual, cyan accents, particle/breathing animations, atomic deep-think icon",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./skin.json": "./skin.json",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [],
+      "platform": "web"
+    }
+  },
+  "license": "MIT",
+  "author": "lzhhhhc"
+}

@@ -1,0 +1,4 @@
+# arknights skin bundle patch: 插入 web 端 client 入口（纯外观皮肤）。
+- insert:
+    - id: ui-skin-arknights
+      name: '@dsh-external/dsh-client-ui-skin-arknights'

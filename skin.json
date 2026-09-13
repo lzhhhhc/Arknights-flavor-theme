@@ -1,0 +1,23 @@
+{
+  "id": "arknights",
+  "name": "明日方舟·罗德岛",
+  "nameEn": "Arknights Rhodes Island",
+  "author": "lzhhhhc",
+  "tagline": "主视觉背景、青色高亮与磨砂玻璃操作台",
+  "description": "面向 DeepSeek Harness WebUI 的明日方舟主题皮肤：罗德岛 key visual 作为会话区背景，近黑画布、青色品牌高亮与半透明深色面板构成操作台风格。",
+  "tags": [
+    "arknights",
+    "dark",
+    "cyan",
+    "glass",
+    "rhodes"
+  ],
+  "accent": "#35c8f5",
+  "bodyAttr": "data-dsh-arknights",
+  "package": "@dsh-external/dsh-client-ui-skin-arknights",
+  "wiring": {
+    "id": "ui-skin-arknights",
+    "bundleWired": false
+  },
+  "order": 6
+}
