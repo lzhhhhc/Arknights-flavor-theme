@@ -4,14 +4,46 @@
 
 DeepSeek Harness Web GUI 的明日方舟（Arknights）主题皮肤：罗德岛 key visual 背景、青色 HUD、粒子与呼吸动效、原子思考图标。纯外观注入。
 
-## 新机器安装
+## 安装
 
-1. 把整个 `dsh-arknights-skin` 文件夹放到新电脑任意位置
-2. 确保新机器装了 pnpm（`npm i -g pnpm`），且 DSH Desktop 至少启动过一次
-3. 右键 `install-new-machine.ps1` → 使用 PowerShell 运行（自动复制插件、注册 web/desktop profile、pnpm install）
+**前提**：Windows、已安装 [Node.js](https://nodejs.org) 与 pnpm（`npm i -g pnpm`）、DSH Desktop 至少启动过一次（已生成 `~/.dsh`）。
+
+### 方式 A：脚本一键安装（推荐）
+
+```powershell
+git clone https://github.com/lzhhhhc/Arknights-flavor-theme.git
+cd Arknights-flavor-theme
+powershell -ExecutionPolicy Bypass -File install-new-machine.ps1
+```
+
+脚本会自动：复制插件到 `~/.dsh/plugins/dsh-arknights-skin` → 注册 web / desktop 两个 Profile → `pnpm install`。完成后重启 DSH Desktop 即可。
+
+### 方式 B：手动安装
+
+1. 将仓库clone或下载到任意位置，把整个文件夹复制到 `~/.dsh/plugins/dsh-arknights-skin`
+2. 编辑 `~/.dsh/profiles/web/package.json` 与 `~/.dsh/profiles/desktop/package.json`，在 `dependencies` 和 `dsh.profile.bundles` 中各加入一行：
+
+   ```json
+   "dependencies": {
+     "@dsh-external/dsh-client-ui-skin-arknights": "file:../../plugins/dsh-arknights-skin"
+   },
+   "dsh": {
+     "profile": {
+       "bundles": [ "...", "@dsh-external/dsh-client-ui-skin-arknights" ]
+     }
+   }
+   ```
+
+3. 在两个 Profile 目录分别执行 `pnpm install`
 4. 重启 DSH Desktop
 
-无需安装任何其它插件；本插件自包含（全部素材 base64 内嵌，零绝对路径）。
+> 本插件自包含：全部素材 base64 内嵌、零第三方依赖，无需安装任何其它插件。
+
+## 卸载
+
+1. 从两个 Profile 的 `package.json` 中移除 `@dsh-external/dsh-client-ui-skin-arknights`（dependencies 与 bundles 两处）
+2. 在 Profile 目录执行 `pnpm install`
+3. 删除 `~/.dsh/plugins/dsh-arknights-skin` 文件夹，重启 DSH Desktop
 
 ## 功能清单
 
