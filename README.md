@@ -1,10 +1,8 @@
-# 粥版风味主题 — 明日方舟·罗德岛操作台皮肤
-
-> Zhou Flavor Theme · Arknights Rhodes Island skin for DSH Desktop
+# Arknights-flavor-theme · 明日方舟主题皮肤
 
 ![preview](screenshots/preview-main.png)
 
-DSH Desktop 纯外观皮肤插件：暗色主视觉 + 罗德岛 key visual 背景、青色 HUD 装饰层、粒子/呼吸/扫光动效、原子模型深度思考图标、菱形停止徽章。
+DeepSeek Harness Web GUI 的明日方舟（Arknights）主题皮肤：罗德岛 key visual 背景、青色 HUD、粒子与呼吸动效、原子思考图标。纯外观注入。
 
 ## 新机器安装
 
