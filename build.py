@@ -13,6 +13,9 @@ with open('lib/assets/ak-sub-bg.png', 'rb') as f:
 with open('lib/assets/ak-emblem-send.png', 'rb') as f:
     em_send = 'data:image/png;base64,' + base64.b64encode(f.read()).decode('ascii')
 
+with open('lib/assets/ak-emblem-stop.png', 'rb') as f:
+    em_stop = 'data:image/png;base64,' + base64.b64encode(f.read()).decode('ascii')
+
 css = """/* ── 明日方舟·罗德岛皮肤 — 官网设计语言 + HUD 动效层 ── */
 
 /* 1) 调色板 */
@@ -223,6 +226,22 @@ body[data-dsh-arknights] [data-composer-card] button[class*='_primary']:hover {
 
 body[data-dsh-arknights] [data-composer-card] button[class*='_primary']:active {
   transform: scale(1.08);
+}
+
+/* 停止态（生成中）：JS 扫描器切换 data-ak-stop，菱形徽章 */
+body[data-dsh-arknights] [data-composer-card] button[class*='_primary'][data-ak-stop] {
+  background: url(__EMBLEM_STOP__) center/82% no-repeat !important;
+  animation: ak-stop-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes ak-stop-pulse {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(53, 200, 245, 0.4)); }
+  50% { filter: drop-shadow(0 0 10px rgba(53, 200, 245, 0.85)); }
+}
+
+body[data-dsh-arknights] [data-composer-card] button[class*='_primary'][data-ak-stop]:hover {
+  background: url(__EMBLEM_STOP__) center/82% no-repeat !important;
+  transform: scale(1.24);
 }
 
 /* 5) cordis 面板/行 */
@@ -1105,6 +1124,19 @@ client = """(() => {
               }
             }
 
+            /* ── 停止态扫描：生成中把发送徽章换成菱形停止徽章 ── */
+            var stopTimer = setInterval(function () {
+              var b = document.querySelector("[data-composer-card] button[class*='_primary']");
+              if (!b) return;
+              var svg = b.querySelector('svg');
+              var isStop = !!(svg && svg.querySelector('rect')) || b.getAttribute('aria-label') === '停止生成';
+              if (isStop && !b.hasAttribute('data-ak-stop')) {
+                b.setAttribute('data-ak-stop', '');
+              } else if (!isStop && b.hasAttribute('data-ak-stop')) {
+                b.removeAttribute('data-ak-stop');
+              }
+            }, 250);
+
             /* ── 十六进制读数滚动（HUD 数据流） ── */
             var hexTimer = 0;
             if (!reducedMotion) {
@@ -1124,6 +1156,7 @@ client = """(() => {
               observer.disconnect();
               if (stopParticles) stopParticles();
               clearInterval(thinkTimer);
+              clearInterval(stopTimer);
               clearInterval(hexTimer);
               Array.prototype.forEach.call(document.querySelectorAll('.ak-atom-icon'), function (n) { n.remove(); });
               var el = document.getElementById("dsh-arknights-skin-style");
@@ -1149,13 +1182,13 @@ client = """(() => {
 })();
 """
 
-css_full = css.replace('__EMBLEM_CORE__', em_core).replace('__EMBLEM_WING__', em_wing).replace('__EMBLEM_CUBE__', em_cube).replace('__EMBLEM_SEND__', em_send)
+css_full = css.replace('__EMBLEM_CORE__', em_core).replace('__EMBLEM_WING__', em_wing).replace('__EMBLEM_CUBE__', em_cube).replace('__EMBLEM_SEND__', em_send).replace('__EMBLEM_STOP__', em_stop)
 css_b64 = base64.b64encode(css_full.encode('utf-8')).decode('ascii')
 
 client = client.replace('__CSS_B64__', css_b64).replace('__BG_B64__', bg_b64).replace('__EMBLEM_CORE_B64__', em_core.split(',', 1)[1])
 open('lib/client.js', 'w', encoding='utf-8', newline='\n').write(client)
 
-css_pub = css.replace('__AK_BG_URL__', './assets/ak-sub-bg.png').replace('__EMBLEM_CORE__', './assets/ak-emblem-core.png').replace('__EMBLEM_WING__', './assets/ak-emblem-wing.png').replace('__EMBLEM_CUBE__', './assets/ak-emblem-cube.png').replace('__EMBLEM_SEND__', './assets/ak-emblem-send.png')
+css_pub = css.replace('__AK_BG_URL__', './assets/ak-sub-bg.png').replace('__EMBLEM_CORE__', './assets/ak-emblem-core.png').replace('__EMBLEM_WING__', './assets/ak-emblem-wing.png').replace('__EMBLEM_CUBE__', './assets/ak-emblem-cube.png').replace('__EMBLEM_SEND__', './assets/ak-emblem-send.png').replace('__EMBLEM_STOP__', './assets/ak-emblem-stop.png')
 open('assets/theme-preview.css', 'w', encoding='utf-8', newline='\n').write(css_pub)
 
 print('FINAL client.js written, size =', len(client))
